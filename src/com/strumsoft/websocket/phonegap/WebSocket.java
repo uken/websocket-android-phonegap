@@ -43,12 +43,10 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 
 /**
@@ -293,6 +291,7 @@ public class WebSocket implements Runnable {
 		return th;
 	}
 
+	@Override
 	public void run() {
 		while (this.running) {
 			try {
@@ -363,7 +362,8 @@ public class WebSocket implements Runnable {
 		final String data = msg;
 		Log.v("websocket", "Received a message: " + msg);
 		appView.post(new Runnable() {
-	        public void run() {
+	        @Override
+			public void run() {
 	            if(keyboardIsShowing){
 	            	Message message = new Message();
 	            	message.obj = buildJavaScriptData(EVENT_ON_MESSAGE, data);
@@ -379,7 +379,8 @@ public class WebSocket implements Runnable {
 	public void onOpen() {
 		Log.v("websocket", "Connected!");
 		appView.post(new Runnable() {
-	        public void run() {
+	        @Override
+			public void run() {
 	            appView.loadUrl(buildJavaScriptData(EVENT_ON_OPEN, BLANK_MESSAGE));
 	            if(keyboardIsShowing){
 	            	handler.sendEmptyMessage(3);
@@ -390,7 +391,8 @@ public class WebSocket implements Runnable {
 
 	public void onClose() {
 		appView.post(new Runnable() {
-	      public void run() {
+	      @Override
+		public void run() {
 	          appView.loadUrl(buildJavaScriptData(EVENT_ON_CLOSE, BLANK_MESSAGE));
 	          if(keyboardIsShowing){
 	          	handler.sendEmptyMessage(3);
@@ -404,7 +406,8 @@ public class WebSocket implements Runnable {
 		Log.v("websocket", "Error: " + msg);
 		t.printStackTrace();
 		appView.post(new Runnable() {
-	        public void run() {
+	        @Override
+			public void run() {
 	            appView.loadUrl(buildJavaScriptData(EVENT_ON_ERROR, msg));
 	            if(keyboardIsShowing){
 	            	handler.sendEmptyMessage(3);
@@ -438,7 +441,7 @@ public class WebSocket implements Runnable {
 		String b64EncodedMsg = "Error!";
 		try{
 			if(msg != null) {
-				b64EncodedMsg = Base64.encodeBytes(msg.getBytes(UTF8_CHARSET));
+				b64EncodedMsg = Base64.encodeToString(msg.getBytes(UTF8_CHARSET), android.util.Base64.DEFAULT);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -646,6 +649,7 @@ public class WebSocket implements Runnable {
 				}
 
 				tokenByteBuffer[tokenByteBufferCounter-1] = readByte;
+			}
 		}
 	}
 
