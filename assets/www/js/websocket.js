@@ -147,20 +147,20 @@
 	///////////// Must be overloaded
 	WebSocket.prototype.onopen = function(){
 		throw new Error('onopen not implemented.');
-    };
+  };
 
-    // alerts message pushed from server
-    WebSocket.prototype.onmessage = function(msg){
-    	throw new Error('onmessage not implemented.');
-    };
+  // alerts message pushed from server
+  WebSocket.prototype.onmessage = function(msg){
+  	throw new Error('onmessage not implemented.');
+  };
 
-    // alerts message pushed from server
-    WebSocket.prototype.onerror = function(msg){
-    	throw new Error('onerror not implemented.');
-    };
+  // alerts message pushed from server
+  WebSocket.prototype.onerror = function(msg){
+  	throw new Error('onerror not implemented.');
+  };
 
-    // alert close event
-    WebSocket.prototype.onclose = function(){
-        throw new Error('onclose not implemented.');
-    };
+  // alert close event
+  WebSocket.prototype.onclose = function(){
+      throw new Error('onclose not implemented.');
+  };
 })();
