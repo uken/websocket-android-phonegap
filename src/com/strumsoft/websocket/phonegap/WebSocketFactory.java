@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2010 Animesh Kumar  (https://github.com/anismiles)
  * Copyright (c) 2010 Strumsoft  (https://strumsoft.com)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -10,10 +10,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *  
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *  
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -22,7 +22,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- *  
+ *
  */
 package com.strumsoft.websocket.phonegap;
 
@@ -38,13 +38,13 @@ import android.webkit.WebView;
  * The <tt>WebSocketFactory</tt> is like a helper class to instantiate new
  * WebSocket instaces especially from Javascript side. It expects a valid
  * "ws://" URI.
- * 
+ *
  * @author Animesh Kumar
  */
 public class WebSocketFactory {
-	
+
 	private Vector<WebSocket> socketList = new Vector<WebSocket>();
-	
+
 	private Handler handler;
 
 	/** The app view. */
@@ -52,7 +52,7 @@ public class WebSocketFactory {
 
 	/**
 	 * Instantiates a new web socket factory.
-	 * 
+	 *
 	 * @param appView
 	 *            the app view
 	 */
@@ -60,7 +60,7 @@ public class WebSocketFactory {
 		this.appView = appView;
 		this.handler = h;
 	}
-	
+
 	public Vector<WebSocket> getSocketList() {
 		return socketList;
 	}
@@ -83,13 +83,13 @@ public class WebSocketFactory {
 			if(th != null) {
 				th.interrupt();
 			}
-		} 
+		}
 		return null;
 	}
 
 	/**
 	 * Generates random unique ids for WebSocket instances
-	 * 
+	 *
 	 * @return String
 	 */
 	private String getRandonUniqueId() {
