@@ -131,6 +131,8 @@ public class WebSocket implements Runnable {
 	 */
 	public static final byte DATA_END_OF_FRAME = (byte) 0xFF;
 
+	public static final int BUFFER_SIZE = 1024 * 500; // 512,000 B = 500 KB
+
 	// //////////////// INSTANCE Variables
 	/**
 	 * The WebView instance from Phonegap DroidGap
@@ -215,8 +217,10 @@ public class WebSocket implements Runnable {
 
 	private final WebSocket instance;
 
-	private ByteBuffer bigBuffer = ByteBuffer.allocate(1024 * 500);
-	private byte[] tokenByteBuffer = new byte[1024 * 500];
+	private ByteBuffer bigBuffer = ByteBuffer.allocate(BUFFER_SIZE);
+
+	private byte[] tokenByteBuffer = new byte[BUFFER_SIZE];
+
 	private int tokenByteBufferCounter = 0;
 
 	/**
@@ -441,7 +445,7 @@ public class WebSocket implements Runnable {
 		String b64EncodedMsg = "Error!";
 		try{
 			if(msg != null) {
-				b64EncodedMsg = Base64.encodeToString(msg.getBytes(UTF8_CHARSET), android.util.Base64.DEFAULT);
+				b64EncodedMsg = Base64.encodeToString(msg.getBytes(UTF8_CHARSET), Base64.NO_WRAP);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -596,7 +600,7 @@ public class WebSocket implements Runnable {
 		}
 
 		if (bytesRead == -1) {
-			Log.v("websocket", "All Bytes readed");
+			Log.v("websocket", "All Bytes read");
 			close();
 		} else if (bytesRead > 0) {
 			if (!this.handshakeComplete) {
