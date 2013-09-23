@@ -30,7 +30,6 @@ import java.net.URI;
 import java.util.Random;
 import java.util.Vector;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.webkit.WebView;
 

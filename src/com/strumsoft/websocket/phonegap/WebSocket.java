@@ -131,7 +131,7 @@ public class WebSocket implements Runnable {
 	 */
 	public static final byte DATA_END_OF_FRAME = (byte) 0xFF;
 
-	public static final int BUFFER_SIZE = 1024 * 500; // 512,000 B = 500 KB
+	public static final int BUFFER_SIZE = 1024 * 100; // 102,400 B = 100 KB
 
 	// //////////////// INSTANCE Variables
 	/**
@@ -616,7 +616,6 @@ public class WebSocket implements Runnable {
 
 		int length = bytesRead;
 		if (length > 2000) length = 2000;
-
 		Log.v("websocket", "_readFrame - bytesRead: " + bytesRead + ", data: " + new String(data, 0, length));
 
 		// Get tokens
@@ -710,17 +709,18 @@ public class WebSocket implements Runnable {
 		if (this.draft == WebSocket.Draft.DRAFT76) {
 			if (handShakeBody == null) {
 				isConnectionReady = true;
-			}
-			byte[] challenge = new byte[] { (byte) (this.number1 >> 24), (byte) ((this.number1 << 8) >> 24),
-					(byte) ((this.number1 << 16) >> 24), (byte) ((this.number1 << 24) >> 24),
-					(byte) (this.number2 >> 24), (byte) ((this.number2 << 8) >> 24),
-					(byte) ((this.number2 << 16) >> 24), (byte) ((this.number2 << 24) >> 24), this.key3[0],
-					this.key3[1], this.key3[2], this.key3[3], this.key3[4], this.key3[5], this.key3[6], this.key3[7] };
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			byte[] expected = md5.digest(challenge);
-			for (int i = 0; i < handShakeBody.length; i++) {
-				if (expected[i] != handShakeBody[i]) {
-					isConnectionReady = true;
+			} else {
+				byte[] challenge = new byte[] { (byte) (this.number1 >> 24), (byte) ((this.number1 << 8) >> 24),
+						(byte) ((this.number1 << 16) >> 24), (byte) ((this.number1 << 24) >> 24),
+						(byte) (this.number2 >> 24), (byte) ((this.number2 << 8) >> 24),
+						(byte) ((this.number2 << 16) >> 24), (byte) ((this.number2 << 24) >> 24), this.key3[0],
+						this.key3[1], this.key3[2], this.key3[3], this.key3[4], this.key3[5], this.key3[6], this.key3[7] };
+				MessageDigest md5 = MessageDigest.getInstance("MD5");
+				byte[] expected = md5.digest(challenge);
+				for (int i = 0; i < handShakeBody.length; i++) {
+					if (expected[i] != handShakeBody[i]) {
+						isConnectionReady = true;
+					}
 				}
 			}
 		}
