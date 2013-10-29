@@ -531,7 +531,8 @@ public class WebSocket implements Runnable {
 		String host = uri.getHost() + (port != DEFAULT_PORT ? ":" + port : "");
 		String origin = "*"; // TODO: Make 'origin' configurable
 		String request = "GET " + path + " HTTP/1.1\r\n" + "Upgrade: WebSocket\r\n" + "Connection: Upgrade\r\n"
-				+ "Host: " + host + "\r\n" + "Origin: " + origin + "\r\n";
+				+ "Host: " + host + "\r\n" + "Origin: " + origin + "\r\n"
+				+ "User-Agent: " + this.appView.getSettings().getUserAgentString() + "\r\n";
 
 		// Add random keys for Draft76
 		if (this.draft == Draft.DRAFT76) {
