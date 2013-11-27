@@ -31,6 +31,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import android.os.Handler;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 /**
@@ -60,15 +61,18 @@ public class WebSocketFactory {
 		this.handler = h;
 	}
 
+	@JavascriptInterface
 	public Vector<WebSocket> getSocketList() {
 		return socketList;
 	}
 
+	@JavascriptInterface
 	public WebSocket getInstance(String url) {
 		// use Draft76 by default
 		return getInstance(url, WebSocket.Draft.DRAFT76);
 	}
 
+	@JavascriptInterface
 	public WebSocket getInstance(String url, WebSocket.Draft draft) {
 		WebSocket socket = null;
 		Thread th = null;
