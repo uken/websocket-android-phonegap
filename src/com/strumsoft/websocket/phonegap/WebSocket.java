@@ -47,6 +47,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 /**
@@ -269,6 +270,7 @@ public class WebSocket implements Runnable {
 	 *
 	 * @throws IOException
 	 */
+	@JavascriptInterface
 	public Thread connect() throws IOException {
 		this.running = true;
 		this.readyState = WEBSOCKET_STATE_CONNECTING;
@@ -296,6 +298,7 @@ public class WebSocket implements Runnable {
 	}
 
 	@Override
+	@JavascriptInterface
 	public void run() {
 		while (this.running) {
 			try {
@@ -307,14 +310,14 @@ public class WebSocket implements Runnable {
 		}
 	}
 
-
+	@JavascriptInterface
 	public void setKeyboardStatus(boolean status){
 		keyboardIsShowing = status;
-		Log.d("websocket", "keyboardIsShowing: "+keyboardIsShowing);
 	}
 	/**
 	 * Closes connection with server
 	 */
+	@JavascriptInterface
 	public void close() {
 		this.readyState = WebSocket.WEBSOCKET_STATE_CLOSING;
 
@@ -339,6 +342,7 @@ public class WebSocket implements Runnable {
 	 * @param text
 	 *            String to send to server
 	 */
+	@JavascriptInterface
 	public void send(final String text) {
 		new Thread(new Runnable() {
 			@Override
@@ -362,6 +366,7 @@ public class WebSocket implements Runnable {
 	 * @param msg
 	 *            Message from websocket server
 	 */
+	@JavascriptInterface
 	public void onMessage(String msg) {
 		final String data = msg;
 		Log.v("websocket", "Received a message: " + msg);
@@ -380,6 +385,7 @@ public class WebSocket implements Runnable {
 	    });
 	}
 
+	@JavascriptInterface
 	public void onOpen() {
 		Log.v("websocket", "Connected!");
 		appView.post(new Runnable() {
@@ -393,6 +399,7 @@ public class WebSocket implements Runnable {
 	    });
 	}
 
+	@JavascriptInterface
 	public void onClose() {
 		appView.post(new Runnable() {
 	      @Override
@@ -405,6 +412,7 @@ public class WebSocket implements Runnable {
     });
 	}
 
+	@JavascriptInterface
 	public void onError(Throwable t) {
 		final String msg = t.getMessage();
 		Log.v("websocket", "Error: " + msg);
@@ -420,6 +428,7 @@ public class WebSocket implements Runnable {
 	    });
 	}
 
+	@JavascriptInterface
 	public String getId() {
 		return id;
 	}
@@ -427,6 +436,7 @@ public class WebSocket implements Runnable {
 	/**
 	 * @return the readyState
 	 */
+	@JavascriptInterface
 	public int getReadyState() {
 		return readyState;
 	}
