@@ -224,6 +224,8 @@ public class WebSocket implements Runnable {
 
 	private int tokenByteBufferCounter = 0;
 
+	private String userAgent = null;
+
 	/**
 	 * Constructor.
 	 *
@@ -238,7 +240,7 @@ public class WebSocket implements Runnable {
 	 * @param id
 	 *            unique id for this instance
 	 */
-	protected WebSocket(Handler handler, WebView appView, URI uri, Draft draft, String id) {
+	protected WebSocket(Handler handler, WebView appView, URI uri, Draft draft, String id, String userAgent) {
 		this.appView = appView;
 		this.uri = uri;
 		this.draft = draft;
@@ -252,6 +254,12 @@ public class WebSocket implements Runnable {
 
 		// Id
 		this.id = id;
+
+		// User Agent
+		if (userAgent == null)
+			this.userAgent = "";
+		else
+			this.userAgent = userAgent;
 
 		this.bufferQueue = new LinkedBlockingQueue<ByteBuffer>();
 		this.handshakeComplete = false;
@@ -540,9 +548,11 @@ public class WebSocket implements Runnable {
 
 		String host = uri.getHost() + (port != DEFAULT_PORT ? ":" + port : "");
 		String origin = "*"; // TODO: Make 'origin' configurable
+
 		String request = "GET " + path + " HTTP/1.1\r\n" + "Upgrade: WebSocket\r\n" + "Connection: Upgrade\r\n"
 				+ "Host: " + host + "\r\n" + "Origin: " + origin + "\r\n"
-				+ "User-Agent: " + this.appView.getSettings().getUserAgentString() + "\r\n";
+				+ "User-Agent: " + userAgent + "\r\n";
+
 
 		// Add random keys for Draft76
 		if (this.draft == Draft.DRAFT76) {

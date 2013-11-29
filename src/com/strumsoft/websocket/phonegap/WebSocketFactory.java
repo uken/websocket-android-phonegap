@@ -47,6 +47,8 @@ public class WebSocketFactory {
 
 	private Handler handler;
 
+	private String userAgent;
+
 	/** The app view. */
 	WebView appView;
 
@@ -56,9 +58,10 @@ public class WebSocketFactory {
 	 * @param appView
 	 *            the app view
 	 */
-	public WebSocketFactory(Handler h, WebView appView) {
+	public WebSocketFactory(Handler h, WebView appView, String userAgent) {
 		this.appView = appView;
 		this.handler = h;
+		this.userAgent = userAgent;
 	}
 
 	@JavascriptInterface
@@ -69,15 +72,15 @@ public class WebSocketFactory {
 	@JavascriptInterface
 	public WebSocket getInstance(String url) {
 		// use Draft76 by default
-		return getInstance(url, WebSocket.Draft.DRAFT76);
+		return getInstance(url, WebSocket.Draft.DRAFT76, userAgent);
 	}
 
 	@JavascriptInterface
-	public WebSocket getInstance(String url, WebSocket.Draft draft) {
+	public WebSocket getInstance(String url, WebSocket.Draft draft, String userAgent) {
 		WebSocket socket = null;
 		Thread th = null;
 		try {
-			socket = new WebSocket(handler, appView, new URI(url), draft, getRandonUniqueId());
+			socket = new WebSocket(handler, appView, new URI(url), draft, getRandomUniqueId(), userAgent);
 			socketList.add(socket);
 			th = socket.connect();
 			return socket;
@@ -95,7 +98,7 @@ public class WebSocketFactory {
 	 *
 	 * @return String
 	 */
-	private String getRandonUniqueId() {
+	private String getRandomUniqueId() {
 		return "WEBSOCKET." + new Random().nextInt(100);
 	}
 
